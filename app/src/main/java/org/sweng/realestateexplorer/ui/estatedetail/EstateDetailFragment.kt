@@ -10,10 +10,6 @@ import org.sweng.realestateexplorer.R
 
 class EstateDetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = EstateDetailFragment()
-    }
-
     private lateinit var viewModel: EstateDetailViewModel
 
     override fun onCreateView(

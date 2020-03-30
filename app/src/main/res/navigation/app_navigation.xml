@@ -3,31 +3,35 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
-    app:startDestination="@id/loginActivity2">
-    <activity
-        android:id="@+id/loginActivity2"
-        android:name="org.sweng.realestateexplorer.activities.LoginActivity"
-        android:label="activity_login"
-        tools:layout="@layout/activity_login" />
+    app:startDestination="@id/estateListFragment">
     <fragment
-        android:id="@+id/estateListFragment2"
+        android:id="@+id/estateListFragment"
         android:name="org.sweng.realestateexplorer.ui.estatelist.EstateListFragment"
         android:label="estate_list_fragment"
         tools:layout="@layout/estate_list_fragment" >
         <action
-            android:id="@+id/action_estateListFragment2_to_estateDetailFragment2"
-            app:destination="@id/estateDetailFragment2" />
+            android:id="@+id/action_estateListFragment_to_loginActivity"
+            app:destination="@id/loginActivity"
+            app:popUpTo="@id/loginActivity" />
+        <action
+            android:id="@+id/action_estateListFragment_to_estateDetailFragment"
+            app:destination="@id/estateDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/estateDetailFragment2"
+        android:id="@+id/estateDetailFragment"
         android:name="org.sweng.realestateexplorer.ui.estatedetail.EstateDetailFragment"
         android:label="estate_detail_fragment"
         tools:layout="@layout/estate_detail_fragment" >
         <action
-            android:id="@+id/action_estateDetailFragment2_to_estateListFragment2"
-            app:destination="@id/estateListFragment2" />
-        <action
-            android:id="@+id/action_estateDetailFragment2_to_loginActivity2"
-            app:destination="@id/loginActivity2" />
+            android:id="@+id/action_estateDetailFragment_to_estateListFragment"
+            app:destination="@id/estateListFragment" />
+        <argument
+            android:name="estate_id"
+            app:argType="string" />
     </fragment>
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="org.sweng.realestateexplorer.activities.LoginActivity"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" />
 </navigation>
