@@ -9,13 +9,11 @@ import java.io.IOException
 /**
  * Class that handles authentication w/ login credentials and retrieves user information.
  */
-class LoginDataSource {
-
-    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+class LoginDataSource(private val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
 
     fun login(email: String, password: String): Result<LoggedInUser> {
         return auth.currentUser?.let {
-            Result.Error(IOException("User already signed in!"))
+            getUserDetails(auth.currentUser!!)
         } ?: createUser(email, password)
     }
 
@@ -25,6 +23,7 @@ class LoginDataSource {
     private fun createUser(email: String, password: String): Result<LoggedInUser> {
         return try {
             auth.createUserWithEmailAndPassword(email, password)
+            auth.signInWithEmailAndPassword(email, password)
             getUserDetails(auth.currentUser!!)
         } catch (e: Throwable) {
             Result.Error(IOException("Error logging in.", e))
