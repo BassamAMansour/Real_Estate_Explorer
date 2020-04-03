@@ -63,10 +63,10 @@ class LoginActivity : AppCompatActivity() {
             }
             if (loginResult.success != null) {
                 updateUiWithUser(loginResult.success)
+                userLoggedIn()
             }
             setResult(Activity.RESULT_OK)
 
-            //Complete and destroy login activity once successful
             finish()
         })
 

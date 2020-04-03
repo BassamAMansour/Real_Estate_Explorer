@@ -1,46 +1,53 @@
 package org.sweng.realestateexplorer.data
 
-import org.sweng.realestateexplorer.data.model.LoggedInUser
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
+import com.google.firebase.auth.FirebaseAuth
+import org.sweng.realestateexplorer.data.UserLoginResult.LoginStatus.*
 
 /**
  * Class that requests authentication and user information from the remote data source and
  * maintains an in-memory cache of login status and user credentials information.
  */
 
-class LoginRepository(private val dataSource: LoginDataSource) {
+class LoginRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance()) {
 
-    // in-memory cache of the loggedInUser object
-    var user: LoggedInUser? = null
-        private set
-
-    val isLoggedIn: Boolean
-        get() = user != null
-
-    init {
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
-        user = null
+    private val _userLoginResult = MutableLiveData(UserLoginResult())
+    val user: LiveData<LoggedInUser> = Transformations.map(_userLoginResult) {
+        it.loggedInUser
     }
 
     fun logout() {
-        user = null
-        dataSource.logout()
+        auth.signOut()
+        _userLoginResult.postValue(UserLoginResult(null, SIGNED_OUT))
     }
 
-    fun login(username: String, password: String): Result<LoggedInUser> {
-        // handle login
-        val result = dataSource.login(username, password)
+    fun login(username: String, password: String): LiveData<UserLoginResult> {
 
-        if (result is Result.Success) {
-            setLoggedInUser(result.data)
+        auth.currentUser?.let {
+            _userLoginResult.value =
+                UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+            return@login _userLoginResult
         }
 
-        return result
-    }
+        auth.signInWithEmailAndPassword(username, password).addOnSuccessListener {
+            auth.currentUser!!.let {
+                _userLoginResult.value =
+                    UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+            }
+        }.addOnFailureListener {
+            auth.createUserWithEmailAndPassword(username, password)
+                .addOnSuccessListener {
+                    auth.currentUser!!.let {
+                        _userLoginResult.value =
+                            UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+                    }
+                }.addOnFailureListener {
+                    _userLoginResult.value = UserLoginResult(null, FAILED)
+                }
+        }
 
-    private fun setLoggedInUser(loggedInUser: LoggedInUser) {
-        this.user = loggedInUser
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
+        return _userLoginResult
     }
 }

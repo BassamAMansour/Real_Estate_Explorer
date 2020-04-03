@@ -12,7 +12,7 @@ import org.junit.runner.RunWith
 class LoginRepositoryTest {
 
     private val auth = FirebaseAuth.getInstance()
-    private val repo = LoginRepository(LoginDataSource(auth))
+    private val repo = LoginRepository(auth)
 
     @Before
     fun setUp() {
@@ -29,14 +29,12 @@ class LoginRepositoryTest {
     @Test
     fun getUser() {
         repo.login("realestateapp@gmail.com", "123456789")
-        Assert.assertTrue(repo.isLoggedIn)
         Assert.assertNotNull(repo.user)
     }
 
     @Test
     fun logout() {
         repo.logout()
-        Assert.assertFalse(repo.isLoggedIn)
-        Assert.assertNull(repo.user)
+        Assert.assertNull(repo.user.value)
     }
 }

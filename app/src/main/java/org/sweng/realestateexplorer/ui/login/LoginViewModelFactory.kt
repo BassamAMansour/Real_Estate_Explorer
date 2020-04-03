@@ -2,7 +2,6 @@ package org.sweng.realestateexplorer.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.sweng.realestateexplorer.data.LoginDataSource
 import org.sweng.realestateexplorer.data.LoginRepository
 
 /**
@@ -14,7 +13,7 @@ class LoginViewModelFactory : ViewModelProvider.Factory {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(LoginRepository(LoginDataSource())) as T
+            return LoginViewModel(LoginRepository()) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
