@@ -27,7 +27,7 @@ class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel()
     }
 
     fun login(username: String, password: String) {
-        userLoginResult.value = loginRepository.login(username, password).value
+        loginRepository.login(username, password).observeForever { userLoginResult.value = it }
     }
 
     fun loginDataChanged(username: String, password: String) {
