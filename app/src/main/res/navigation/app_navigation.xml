@@ -26,8 +26,8 @@
             android:id="@+id/action_estateDetailFragment_to_estateListFragment"
             app:destination="@id/estateListFragment" />
         <argument
-            android:name="estate_id"
-            app:argType="string" />
+            android:name="estate"
+            app:argType="org.sweng.realestateexplorer.data.estates.Estate" />
     </fragment>
     <activity
         android:id="@+id/loginActivity"

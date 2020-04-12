@@ -1,10 +1,10 @@
-package org.sweng.realestateexplorer.data
+package org.sweng.realestateexplorer.data.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.google.firebase.auth.FirebaseAuth
-import org.sweng.realestateexplorer.data.UserLoginResult.LoginStatus.*
+import org.sweng.realestateexplorer.data.login.UserLoginResult.LoginStatus.*
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -20,31 +20,55 @@ class LoginRepository(private val auth: FirebaseAuth = FirebaseAuth.getInstance(
 
     fun logout() {
         auth.signOut()
-        _userLoginResult.postValue(UserLoginResult(null, SIGNED_OUT))
+        _userLoginResult.postValue(
+            UserLoginResult(
+                null,
+                SIGNED_OUT
+            )
+        )
     }
 
     fun login(username: String, password: String): LiveData<UserLoginResult> {
 
         auth.currentUser?.let {
             _userLoginResult.value =
-                UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+                UserLoginResult(
+                    LoggedInUser(
+                        it.uid,
+                        it.displayName ?: ""
+                    ), LOGGED_IN
+                )
             return@login _userLoginResult
         }
 
         auth.signInWithEmailAndPassword(username, password).addOnSuccessListener {
             auth.currentUser!!.let {
                 _userLoginResult.value =
-                    UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+                    UserLoginResult(
+                        LoggedInUser(
+                            it.uid,
+                            it.displayName ?: ""
+                        ), LOGGED_IN
+                    )
             }
         }.addOnFailureListener {
             auth.createUserWithEmailAndPassword(username, password)
                 .addOnSuccessListener {
                     auth.currentUser!!.let {
                         _userLoginResult.value =
-                            UserLoginResult(LoggedInUser(it.uid, it.displayName ?: ""), LOGGED_IN)
+                            UserLoginResult(
+                                LoggedInUser(
+                                    it.uid,
+                                    it.displayName ?: ""
+                                ), LOGGED_IN
+                            )
                     }
                 }.addOnFailureListener {
-                    _userLoginResult.value = UserLoginResult(null, FAILED)
+                    _userLoginResult.value =
+                        UserLoginResult(
+                            null,
+                            FAILED
+                        )
                 }
         }
 

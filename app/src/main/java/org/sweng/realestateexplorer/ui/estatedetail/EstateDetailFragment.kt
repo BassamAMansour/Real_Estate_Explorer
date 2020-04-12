@@ -22,7 +22,8 @@ class EstateDetailFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(this).get(EstateDetailViewModel::class.java)
-        viewModel.estateId.value = EstateDetailFragmentArgs.fromBundle(arguments!!).estateId
+        viewModel.estate.value =
+            EstateDetailFragmentArgs.fromBundle(arguments!!).estate //TODO:Use the estate itself in
         // TODO: Use the ViewModel
     }
 

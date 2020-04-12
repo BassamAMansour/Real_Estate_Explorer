@@ -1,4 +1,4 @@
-package org.sweng.realestateexplorer.data
+package org.sweng.realestateexplorer.data.login
 
 data class UserLoginResult(
     var loggedInUser: LoggedInUser? = null,

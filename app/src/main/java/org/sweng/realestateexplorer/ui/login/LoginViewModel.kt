@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import org.sweng.realestateexplorer.R
-import org.sweng.realestateexplorer.data.LoginRepository
-import org.sweng.realestateexplorer.data.UserLoginResult
-import org.sweng.realestateexplorer.data.UserLoginResult.LoginStatus.FAILED
-import org.sweng.realestateexplorer.data.UserLoginResult.LoginStatus.LOGGED_IN
+import org.sweng.realestateexplorer.data.login.LoginRepository
+import org.sweng.realestateexplorer.data.login.UserLoginResult
+import org.sweng.realestateexplorer.data.login.UserLoginResult.LoginStatus.FAILED
+import org.sweng.realestateexplorer.data.login.UserLoginResult.LoginStatus.LOGGED_IN
 
 class LoginViewModel(private val loginRepository: LoginRepository) : ViewModel() {
 

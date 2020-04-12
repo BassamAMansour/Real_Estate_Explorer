@@ -1,4 +1,4 @@
-package org.sweng.realestateexplorer.data
+package org.sweng.realestateexplorer.data.login
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

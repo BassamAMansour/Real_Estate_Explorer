@@ -2,7 +2,7 @@ package org.sweng.realestateexplorer.ui.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import org.sweng.realestateexplorer.data.LoginRepository
+import org.sweng.realestateexplorer.data.login.LoginRepository
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

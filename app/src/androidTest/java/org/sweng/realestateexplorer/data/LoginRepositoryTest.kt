@@ -7,12 +7,14 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.sweng.realestateexplorer.data.login.LoginRepository
 
 @RunWith(AndroidJUnit4::class)
 class LoginRepositoryTest {
 
     private val auth = FirebaseAuth.getInstance()
-    private val repo = LoginRepository(auth)
+    private val repo =
+        LoginRepository(auth)
 
     @Before
     fun setUp() {

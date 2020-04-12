@@ -1,13 +1,16 @@
 package org.sweng.realestateexplorer.ui.estatelist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import org.sweng.realestateexplorer.R
+import org.sweng.realestateexplorer.data.estates.EstateRepository
 import org.sweng.realestateexplorer.databinding.EstateListFragmentBinding
 
 class EstateListFragment : Fragment() {
@@ -30,8 +33,13 @@ class EstateListFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(EstateListViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+        viewModel = ViewModelProviders.of(this, EstateListViewModelFactory(EstateRepository()))
+            .get(EstateListViewModel::class.java)
 
+        viewModel.estates.observe(this, Observer {
+            Log.i(this::class.java.simpleName, it.toString())
+            //TODO: Update the RecyclerView adapter
+        })
+
+    }
 }
