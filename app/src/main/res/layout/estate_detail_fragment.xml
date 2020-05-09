@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -37,7 +38,8 @@
             <ImageSwitcher
                 android:id="@+id/switcher_estate_images"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="true" />
 
             <ImageButton
                 android:id="@+id/next"
@@ -88,8 +90,8 @@
                         android:layout_weight="1"
                         android:fontFamily="casual"
                         android:gravity="right|center_vertical"
-                        android:text="@{viewmodel.estate.creationTime.toDate().toString()}"
                         android:textStyle="bold"
+                        bind:date="@{viewmodel.estate.creationTime.toDate()}"
                         tools:text="23/3/2019" />
                 </LinearLayout>
 
@@ -145,10 +147,10 @@
                     android:autoSizeTextType="uniform"
                     android:fontFamily="casual"
                     android:gravity="start|center_vertical"
-                    android:text="@{viewmodel.estate.address.address}"
-                    android:textStyle="bold"
+                    android:text="@{viewmodel.estate.address.address+viewmodel.estate.address.city}"
                     android:textSize="20sp"
-                    tools:text="Iskandar Ibrahim st, Miami, ALexandria" />
+                    android:textStyle="bold"
+                    tools:text="Iskandar Ibrahim st, Miami" />
             </LinearLayout>
 
             <View
@@ -257,8 +259,8 @@
                     android:fontFamily="casual"
                     android:gravity="end|center_vertical"
                     android:text="@{viewmodel.estate.price}"
-                    android:textStyle="bold"
                     android:textSize="16sp"
+                    android:textStyle="bold"
                     tools:text="200K $" />
             </LinearLayout>
 

@@ -17,7 +17,7 @@ data class Estate(
     var imgUrl: List<String> = emptyList(),
     @get:PropertyName("owner_id") @set:PropertyName("owner_id")
     var ownerId: String = "",
-    var price: Int = 0,
+    var price: String = "0",
     @get:PropertyName("creation_time") @set:PropertyName("creation_time")
     var creationTime: Timestamp = Timestamp(Date())
 ) : Parcelable

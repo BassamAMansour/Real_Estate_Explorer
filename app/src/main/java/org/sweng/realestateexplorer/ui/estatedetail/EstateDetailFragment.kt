@@ -40,9 +40,9 @@ class EstateDetailFragment : Fragment() {
         viewModel.estate.value =
             EstateDetailFragmentArgs.fromBundle(arguments!!).estate
 
-        viewModel.estate.observe(this, Observer {
-            if (!::binding.isInitialized) return@Observer
+        binding.viewmodel = viewModel
 
+        viewModel.estate.observe(this, Observer {
             binding.switcherEstateImages.apply {
                 removeAllViews()
 

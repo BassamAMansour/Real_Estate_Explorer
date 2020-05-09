@@ -15,6 +15,7 @@ import org.sweng.realestateexplorer.databinding.EstateListFragmentBinding
 
 class EstateListFragment : Fragment() {
 
+    private lateinit var binding: EstateListFragmentBinding
     private lateinit var viewModel: EstateListViewModel
 
     override fun onCreateView(
@@ -22,7 +23,7 @@ class EstateListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<EstateListFragmentBinding>(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.estate_list_fragment,
             container,
@@ -38,8 +39,7 @@ class EstateListFragment : Fragment() {
 
         viewModel.estates.observe(this, Observer {
             Log.i(this::class.java.simpleName, it.toString())
-            //TODO: Update the RecyclerView adapter
+            binding.rvEstates.adapter = EstateAdapter(it, requireContext())
         })
-
     }
 }
