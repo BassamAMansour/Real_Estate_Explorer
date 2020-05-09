@@ -1,18 +1,18 @@
 package org.sweng.realestateexplorer.ui.estatedetail
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
 import org.sweng.realestateexplorer.data.estates.Estate
+import org.sweng.realestateexplorer.data.users.User
+import org.sweng.realestateexplorer.data.users.UserRepository
 
 class EstateDetailViewModel : ViewModel() {
+
     // TODO: Implement the ViewModel
     val estate: MutableLiveData<Estate> = MutableLiveData()
-
-    init {
-        estate.observeForever { updateEstate(it.id) }
-    }
-
-    private fun updateEstate(estateId: String) {
-        TODO("Not yet implemented")
+    val user: LiveData<User> = estate.switchMap {
+        liveData(context = viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(UserRepository().getUser(it.ownerId))
+        }
     }
 }
